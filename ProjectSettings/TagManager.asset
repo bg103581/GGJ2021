@@ -5,6 +5,13 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
+  - Tree
+  - Bush
+  - Car
+  - Bench
+  - CarRoof
+  - Trashcan
+  - Carton
   layers:
   - Default
   - TransparentFX
