@@ -4,15 +4,38 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    public static InputManager current;
+
+    [SerializeField] private Player player;
+
+    public Vector2 direction;
+
+    private void Awake() {
+        current = this;
     }
 
-    // Update is called once per frame
+    private void Start() {
+        direction = Vector2.zero;
+    }
+
     void Update()
     {
-        
+        if (Input.GetKey(KeyCode.Z)) direction.y = 1;
+        if (Input.GetKey(KeyCode.S)) direction.y = -1;
+        if (Input.GetKey(KeyCode.Q)) direction.x = -1;
+        if (Input.GetKey(KeyCode.D)) direction.x = 1;
+
+        if (Input.GetKeyUp(KeyCode.Z)) direction.y = 0;
+        if (Input.GetKeyUp(KeyCode.S)) direction.y = 0;
+        if (Input.GetKeyUp(KeyCode.Q)) direction.x = 0;
+        if (Input.GetKeyUp(KeyCode.D)) direction.x = 0;
+
+        if (Input.GetKeyDown(KeyCode.Space)) Jump();
     }
+    
+    private void Jump() {
+        player.Jump();
+        Debug.Log("jump");
+    }
+
 }
