@@ -11,6 +11,7 @@ TagManager:
   - Bench
   - CarRoof
   - Trashcan
+  - Carton
   layers:
   - Default
   - TransparentFX

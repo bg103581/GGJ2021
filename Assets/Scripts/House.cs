@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class House : MonoBehaviour
 {
-    private string houseNumber = "";
+    [SerializeField] private string houseNumber = "";
     public string getHouseNumber() { return houseNumber; }
     public void setHouseNumber(string id) { houseNumber = id; }
 }
