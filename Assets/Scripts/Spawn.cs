@@ -4,13 +4,34 @@ using UnityEngine;
 
 public class Spawn : MonoBehaviour
 {
-    [SerializeField] private GameObject PlayerPrefab = null;
-    [SerializeField] private GameObject CatPrefab = null;
-    [SerializeField] private GameObject QuestPrefab = null;
+    [SerializeField] private GameObject m_playerPrefab = null;
+    [SerializeField] private GameObject m_catPrefab = null;
+    [SerializeField] private GameObject m_questPrefab = null;
+    [SerializeField] private HouseManager m_houseManager;
+    [SerializeField] private List<Transform> m_spawnAreas;
 
+    private List<int> spawnAreaIndex = new List<int>();
     private List<string> catIdList = new List<string>();
     private List<string> questCatIdList = new List<string>();
+    private List<string> questHouseList = new List<string>();
+
     private List<Cat> catList = new List<Cat>();
+    private List<Quest> questList = new List<Quest>();
+
+    private void Awake() {
+        int randomSpawnIndex;
+
+        for(int i = 0; i < 3; i++) {
+            randomSpawnIndex = Random.Range(0, m_spawnAreas.Count);
+            
+            while (spawnAreaIndex.Contains(randomSpawnIndex)) {
+                randomSpawnIndex = Random.Range(0, m_spawnAreas.Count);
+            }
+
+            spawnAreaIndex.Add(randomSpawnIndex);
+            SpawnObject(SpawnObjects.CAT, m_spawnAreas[randomSpawnIndex]);
+        }
+    }
 
     public void SpawnObject(SpawnObjects obj, Transform position) {
         switch (obj) {
@@ -34,22 +55,32 @@ public class Spawn : MonoBehaviour
 
                     /*TO DO : Change color, mark, neckline and behavior texture of CatPrefab to be the same as cat*/
 
-                    Instantiate(CatPrefab, position);
+                    GameObject go = Instantiate(m_catPrefab, position);
+                    go.transform.localPosition = Vector3.zero;
+                    go.transform.localRotation = position.rotation;
                 }
 
                 break;
 
             case (SpawnObjects.QUEST):
-                int catIndex = Random.Range(0, catIdList.Count);
+                List<string> houses = m_houseManager.getHouseNumbers();
 
-                if (!questCatIdList.Contains(catIdList[catIndex])) {
+                int catIndex = Random.Range(0, catIdList.Count);
+                int houseIndex = Random.Range(0, houses.Count);
+
+                if (!questCatIdList.Contains(catIdList[catIndex]) && !questHouseList.Contains(houses[houseIndex])) {
                     questCatIdList.Add(catIdList[catIndex]);
+                    questHouseList.Add(houses[houseIndex]);
 
                     Cat questCat = catList[catIndex];
+                    Quest quest = new Quest(questCat, houses[houseIndex]);
+                    questList.Add(quest);
 
-                    Quest quest = new Quest(questCat);
+                    /*TO DO : Update quest description*/
+
+                    Instantiate(m_questPrefab, position);
                 }
-               
+
 
                 break;
 
