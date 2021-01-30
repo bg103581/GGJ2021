@@ -6,6 +6,8 @@ public class InputManager : MonoBehaviour
 {
     public static InputManager current;
 
+    [SerializeField] private Player player;
+
     public Vector2 direction;
 
     private void Awake() {
@@ -32,6 +34,7 @@ public class InputManager : MonoBehaviour
     }
     
     private void Jump() {
+        player.Jump();
         Debug.Log("jump");
     }
 
