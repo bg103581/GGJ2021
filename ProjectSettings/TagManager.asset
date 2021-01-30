@@ -12,6 +12,7 @@ TagManager:
   - CarRoof
   - Trashcan
   - Carton
+  - Cat
   layers:
   - Default
   - TransparentFX

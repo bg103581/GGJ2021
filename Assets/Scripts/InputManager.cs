@@ -30,12 +30,9 @@ public class InputManager : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Q)) direction.x = 0;
         if (Input.GetKeyUp(KeyCode.D)) direction.x = 0;
 
-        if (Input.GetKeyDown(KeyCode.Space)) Jump();
-    }
-    
-    private void Jump() {
-        player.Jump();
-        Debug.Log("jump");
+        if (Input.GetKeyDown(KeyCode.Space)) player.Jump();
+
+        if (Input.GetKeyDown(KeyCode.E)) player.Interact();
     }
 
 }
