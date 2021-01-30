@@ -5,49 +5,49 @@
     QUEST
 }
 
-public enum CatColor
+public enum Fur
 {
-    CHOCOLAT,
-    ROUX,
-    GRIS,
-    NOIR,
-    CREME
+    CHOCOLATE,
+    GINGER,
+    GRAY,
+    BLACK,
+    CREAM
 }
 
-public enum CatMark
+public enum Pattern
 {
-    TETE,
-    RAYURE,
-    VENTRE,
-    CORPS,
-    PATTES
+    HEAD,
+    STRIPES,
+    BODY,
+    PAWS
 }
 
-public enum CatNeckline
+public enum Collar
 {
-    ROUGE,
-    VERT,
-    BLEU
+    RED,
+    BLUE,
+    GREEN,
+    YELLOW
 }
 
-public enum CatBehavior
+public enum Personality
 {
-    CHASSEUR,
-    CRAINTIF,
-    DORMEUR,
-    JOUEUR
+    HUNTER,
+    FEARFUL,
+    SLEEPY,
+    PLAYFUL
 }
 
 public enum Choice
 {
-    APPELER,
-    CARESSER,
-    JOUER
+    BECKON,
+    CARESS,
+    PLAY
 }
 
 public enum Care
 {
-    FAIM,
-    SALE,
-    SOIF
+    HUNGRY,
+    DIRTY,
+    THIRSTY
 }

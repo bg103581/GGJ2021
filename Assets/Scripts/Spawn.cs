@@ -58,20 +58,20 @@ public class Spawn : MonoBehaviour
                 break;
 
             case (SpawnObjects.CAT):
-                CatColor color = (CatColor)Random.Range(0, System.Enum.GetValues(typeof(CatColor)).Length);
-                CatMark mark = (CatMark)Random.Range(0, System.Enum.GetValues(typeof(CatMark)).Length); ;
-                CatNeckline neckline = (CatNeckline)Random.Range(0, System.Enum.GetValues(typeof(CatNeckline)).Length);
-                CatBehavior behavior = (CatBehavior)Random.Range(0, System.Enum.GetValues(typeof(CatBehavior)).Length);
+                Fur fur = (Fur)Random.Range(0, System.Enum.GetValues(typeof(Fur)).Length);
+                Pattern pattern = (Pattern)Random.Range(0, System.Enum.GetValues(typeof(Pattern)).Length); ;
+                Collar collar = (Collar)Random.Range(0, System.Enum.GetValues(typeof(Collar)).Length);
+                Personality personality = (Personality)Random.Range(0, System.Enum.GetValues(typeof(Personality)).Length);
 
-                string catId = ((int)color).ToString() + ((int)mark).ToString() + ((int)neckline).ToString() + ((int)behavior).ToString();
+                string catId = ((int)fur).ToString() + ((int)pattern).ToString() + ((int)collar).ToString() + ((int)personality).ToString();
 
                 if (!catIdList.Contains(catId)) {
 
                     int randomSpawnIndex;
                     Transform position;
 
-                    switch (behavior) {
-                        case (CatBehavior.CHASSEUR):
+                    switch (personality) {
+                        case (Personality.HUNTER):
                             if (chasseurPosList.Count > 0) {
                                 randomSpawnIndex = Random.Range(0, chasseurPosList.Count);
                                 position = chasseurPosList[randomSpawnIndex];
@@ -82,7 +82,7 @@ public class Spawn : MonoBehaviour
                             }
                             break;
 
-                        case (CatBehavior.JOUEUR):
+                        case (Personality.PLAYFUL):
                             if (joueurPosList.Count > 0) {
                                 randomSpawnIndex = Random.Range(0, joueurPosList.Count);
                                 position = joueurPosList[randomSpawnIndex];
@@ -106,16 +106,15 @@ public class Spawn : MonoBehaviour
                     }
 
                     catIdList.Add(catId);
-                    Cat cat = new Cat(color, mark, neckline, behavior) {
+                    Cat cat = new Cat(fur, pattern, collar, personality) {
                         Id = catId
                     };
                     catList.Add(cat);
 
-                    /*TO DO : Change color, mark, neckline and behavior texture of CatPrefab to be the same as cat*/
-
                     GameObject go = Instantiate(m_catPrefab, position);
                     go.transform.localPosition = Vector3.zero;
                     go.transform.localRotation = position.rotation;
+                    go.GetComponent<CatMaterialSetter>().SetMaterials(fur, pattern, collar);
                 }
 
                 break;
