@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Tree
+  - Bush
+  - Car
+  - Bench
+  - CarRoof
+  - Trashcan
   layers:
   - Default
   - TransparentFX
