@@ -1210,7 +1210,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_playerPrefab: {fileID: 919132149155446097, guid: a69ec2ca3e80c3342a29a43a3e802119,
     type: 3}
-  m_catPrefab: {fileID: 6114455271582860367, guid: 66d8daf73c20692468940c85c755b3cf,
+  m_catPrefab: {fileID: 5417636398399774374, guid: a5f0d7655eea60a4d89883b1fabd47bc,
     type: 3}
   m_questPrefab: {fileID: 7323492932878485746, guid: acff722e096a09b40b92b6e149cd501d,
     type: 3}
@@ -1244,6 +1244,8 @@ MonoBehaviour:
   - {fileID: 282397506}
   - {fileID: 734818672}
   - {fileID: 1513308489}
+  totalCats: 10
+  totalQuests: 5
 --- !u!4 &1822015115
 Transform:
   m_ObjectHideFlags: 0
