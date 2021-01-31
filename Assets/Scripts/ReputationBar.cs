@@ -7,6 +7,14 @@ public class ReputationBar : MonoBehaviour
 {
     [SerializeField] private Slider slider;
 
+    private int nbQuests = 5;
+    private int catScore = 75;
+    private int bonusScore = 25;
+
+    private void Start() {
+        SetMaxReputation(nbQuests * (catScore + bonusScore));
+    }
+
     public void SetMaxReputation(int reput) {
         slider.maxValue = reput;
         slider.value = 0;
