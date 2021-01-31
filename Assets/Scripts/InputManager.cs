@@ -33,6 +33,7 @@ public class InputManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space)) player.Jump();
 
         if (Input.GetKeyDown(KeyCode.E)) player.Interact();
+        if (Input.GetKeyDown(KeyCode.A)) UiManager.current.OpenOngoingQuest();
     }
 
 }

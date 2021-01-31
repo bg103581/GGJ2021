@@ -68,5 +68,9 @@ public class UiManager : MonoBehaviour
             player.ShowQuestInteraction(false);
         }
     }
+
+    public void OpenOngoingQuest() {
+
+    }
     #endregion
 }
