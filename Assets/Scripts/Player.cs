@@ -18,11 +18,15 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform catPos;
     [SerializeField] private Transform groundPos;
     [SerializeField] private CinemachineFreeLook cinemachine;
+    [SerializeField] private Animator anim;
 
     [HideInInspector] public bool objectIsInteractable = false;
     [HideInInspector] public bool isCatCarried = false;
     [HideInInspector] public GameObject interactableObjectNear;
     [HideInInspector] public Quest quest = null;
+
+    [HideInInspector] public bool isInAnimation;
+    private bool isInLetGoAnimation;
 
     private GameObject carriedCat = null;
     private Rigidbody rb;
@@ -47,6 +51,7 @@ public class Player : MonoBehaviour
         GameEvents.current.onLetGoButtonTrigger += LetGoCat;
         GameEvents.current.onCaressButtonTrigger += Caress;
         GameEvents.current.onPlayButtonTrigger += Play;
+        GameEvents.current.onCallButtonTrigger += Call;
     }
 
     private void Start() {
@@ -56,6 +61,14 @@ public class Player : MonoBehaviour
     private void Update() {
         dir = InputManager.current.direction.normalized;
         Rotate();
+        if (isGrounded && rb.velocity.magnitude > 0.1f) {
+            if (isCatCarried) anim.SetBool("isCarryRunning", true);
+            else anim.SetBool("isRunning", true);
+        }
+        else if (rb.velocity.magnitude <= 0.1f) {
+            if (isCatCarried) anim.SetBool("isCarryRunning", false);
+            else anim.SetBool("isRunning", false);
+        }
     }
 
     void FixedUpdate() {
@@ -74,27 +87,30 @@ public class Player : MonoBehaviour
         GameEvents.current.onLetGoButtonTrigger -= LetGoCat;
         GameEvents.current.onCaressButtonTrigger -= Caress;
         GameEvents.current.onPlayButtonTrigger -= Play;
+        GameEvents.current.onCallButtonTrigger -= Call;
     }
     #endregion
 
     #region Methods
     private void Walk() {
-        if (isInCatInteractMenu || isInQuestInteractMenu)
+        if (isInCatInteractMenu || isInQuestInteractMenu || isInAnimation || isInLetGoAnimation)
             rb.velocity = Vector3.zero;
         else
             rb.velocity = new Vector3(moveDir.x * speed, rb.velocity.y, moveDir.z * speed);
     }
 
     public void Jump() {
-        if (isGrounded && !isInCatInteractMenu) {
+        if (isGrounded && !isInCatInteractMenu && !isInAnimation && !isCatCarried && !isInLetGoAnimation) {
             isGrounded = false;
             rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
             rb.velocity += Vector3.up * jumpVelocity;
+
+            anim.SetTrigger("jumpTrigger");
         }
     }
 
     private void Rotate() {
-        if (dir.magnitude >= 0.1f && !(isInCatInteractMenu || isInQuestInteractMenu)) {
+        if (dir.magnitude >= 0.1f && !(isInCatInteractMenu || isInQuestInteractMenu || isInAnimation || isInLetGoAnimation)) {
             float targetAngle = Mathf.Atan2(dir.x, dir.y) * Mathf.Rad2Deg + camera.eulerAngles.y;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
 
@@ -153,24 +169,35 @@ public class Player : MonoBehaviour
     public void PickUpCat() {
         UiManager.current.ShowCatInteractionCanvas(false);
         isInCatInteractMenu = false;
+        isInAnimation = true;
         ResumeCinemachine();
 
         carriedCat = interactableObjectNear;
         isCatCarried = true;
+
+        Animator catAnim = carriedCat.GetComponent<Animator>();
+        catAnim.SetBool("isCarried", true);
+
         Image interactionButton = carriedCat.GetComponent<InteractionButton>().interactionButton;
         UiManager.current.ShowInteractionButton(interactionButton, false);
 
         carriedCat.transform.SetParent(catPos);
-        carriedCat.transform.DOLocalMove(Vector3.zero, 1f);
-        carriedCat.transform.DOLocalRotate(Vector3.zero, 1f);
+        carriedCat.transform.DOLocalMove(Vector3.zero, 2f);
+        carriedCat.transform.DOLocalRotate(Vector3.zero, 2f);
 
         UiManager.current.EnablePickUpButton(false);
+
+        anim.SetTrigger("pickUpTrigger");
     }
 
     public void LetGoCat() {
         UiManager.current.ShowCatInteractionCanvas(false);
         isInCatInteractMenu = false;
+        isInAnimation = true;
         ResumeCinemachine();
+
+        Animator catAnim = carriedCat.GetComponent<Animator>();
+        catAnim.SetBool("isCarried", false);
 
         isCatCarried = false;
         //move to ground
@@ -187,14 +214,44 @@ public class Player : MonoBehaviour
 
         UiManager.current.EnablePickUpButton(true);
 
+        anim.SetTrigger("letGoTrigger");
+        StartCoroutine(LetGoCorout());
+    }
+
+    private IEnumerator LetGoCorout() {
+        isInLetGoAnimation = true;
+        yield return new WaitForSeconds(1.5f);
+        isInLetGoAnimation = false;
     }
 
     public void Caress() {
-
+        if (interactableObjectNear.tag == "Cat") {
+            Personality personality = interactableObjectNear.GetComponent<Cat>().getPersonality();
+            if (personality == Personality.FEARFUL || personality == Personality.SLEEPY) {
+                isInAnimation = true;
+                anim.SetTrigger("caressTrigger");
+            }
+            //else Destroy(interactableObjectNear);
+        }
     }
 
     public void Play() {
+        if (interactableObjectNear.tag == "Cat") {
+            if (interactableObjectNear.GetComponent<Cat>().getPersonality() == Personality.PLAYFUL) {
+                isInAnimation = true;
+                anim.SetTrigger("playTrigger");
+                Animator catAnim = interactableObjectNear.GetComponent<Animator>();
+                catAnim.SetTrigger("playTrigger");
+            }
+            //else Destroy(interactableObjectNear);
+        }
+    }
 
+    public void Call() {
+        if (interactableObjectNear.tag == "Cat") {
+            isInAnimation = true;
+            anim.SetTrigger("callTrigger");
+        }
     }
 
     public void ShowQuestInteraction(bool show, Quest quest = null) {
@@ -225,5 +282,11 @@ public class Player : MonoBehaviour
         cinemachine.m_YAxis.m_MaxSpeed = cinemachineYSpeed;
         cinemachine.m_XAxis.m_MaxSpeed = cinemachineXSpeed;
     }
+
+    public void Pause() {
+        UiManager.current.InGameToPause();
+        Time.timeScale = 0;
+    }
+    
     #endregion
 }

@@ -48,6 +48,10 @@ public class UiManager : MonoBehaviour
     public void Play() {
         GameEvents.current.Play();
     }
+
+    public void Call() {
+        GameEvents.current.Call();
+    }
     #endregion
 
     #region Interaction Button
@@ -91,7 +95,7 @@ public class UiManager : MonoBehaviour
     }
 
     public void OpenOngoingQuestList() {
-        m_ongoingQuestCanvas.SetActive(!m_activeQuestCanvas.activeInHierarchy);
+        m_ongoingQuestCanvas.SetActive(!m_ongoingQuestCanvas.activeInHierarchy);
 
         if (m_ongoingQuestCanvas.activeInHierarchy)
             m_activeQuestCanvas.SetActive(false);
@@ -127,6 +131,7 @@ public class UiManager : MonoBehaviour
     public void PauseToInGame() {
         panelPause.SetActive(false);
         hud.SetActive(true);
+        Time.timeScale = 1;
     }
 
     public void InGameToFinish() {
