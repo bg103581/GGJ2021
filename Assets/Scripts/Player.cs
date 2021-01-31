@@ -172,12 +172,16 @@ public class Player : MonoBehaviour
 
         carriedCat = interactableObjectNear;
         isCatCarried = true;
+
+        Animator catAnim = carriedCat.GetComponent<Animator>();
+        catAnim.SetBool("isCarried", true);
+
         Image interactionButton = carriedCat.GetComponent<InteractionButton>().interactionButton;
         UiManager.current.ShowInteractionButton(interactionButton, false);
 
         carriedCat.transform.SetParent(catPos);
-        carriedCat.transform.DOLocalMove(Vector3.zero, 1f);
-        carriedCat.transform.DOLocalRotate(Vector3.zero, 1f);
+        carriedCat.transform.DOLocalMove(Vector3.zero, 2f);
+        carriedCat.transform.DOLocalRotate(Vector3.zero, 2f);
 
         UiManager.current.EnablePickUpButton(false);
 
@@ -189,6 +193,9 @@ public class Player : MonoBehaviour
         isInCatInteractMenu = false;
         isInAnimation = true;
         ResumeCinemachine();
+
+        Animator catAnim = carriedCat.GetComponent<Animator>();
+        catAnim.SetBool("isCarried", false);
 
         isCatCarried = false;
         //move to ground
@@ -223,6 +230,8 @@ public class Player : MonoBehaviour
     public void Play() {
         isInAnimation = true;
         anim.SetTrigger("playTrigger");
+        Animator catAnim = carriedCat.GetComponent<Animator>();
+        catAnim.SetTrigger("playTrigger");
     }
 
     public void Call() {
