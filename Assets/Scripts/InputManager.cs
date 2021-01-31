@@ -42,6 +42,8 @@ public class InputManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E)) player.Interact();
         if (Input.GetKeyDown(KeyCode.A)) UiManager.current.OpenOngoingQuestList();
 
+        if (Input.GetKeyDown(KeyCode.P)) player.Pause();
+
         /*if (Input.GetKeyDown(KeyCode.M)) reputationBar.SetMaxReputation(nbQuests * (catScore + bonusScore));
         if (Input.GetKeyDown(KeyCode.RightArrow)) reputationBar.AddReputation(catScore + bonusScore); //chat rapporté avec bonus
         if (Input.GetKeyDown(KeyCode.LeftArrow)) reputationBar.AddReputation(catScore); //chat rapporté sans bonus
