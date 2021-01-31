@@ -17,4 +17,11 @@ public class GameEvents : MonoBehaviour
             onPickUpButtonTrigger();
         }
     }
+
+    public event Action onLetGoButtonTrigger;
+    public void LetGo() {
+        if (onLetGoButtonTrigger != null) {
+            onLetGoButtonTrigger();
+        }
+    }
 }

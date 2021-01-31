@@ -8,15 +8,19 @@ public class UiManager : MonoBehaviour
     [HideInInspector] public static UiManager current;
     [SerializeField] private GameObject m_catInteractionCanvas;
     [SerializeField] private GameObject m_questInteractionCanvas;
-    [SerializeField] private Button pickupButton;
+    [SerializeField] private GameObject pickupButton;
+    [SerializeField] private GameObject letGoButton;
 
     private void Awake() {
         current = this;
     }
 
     public void PickUp() {
-        Debug.Log("pick up cat");
         GameEvents.current.PickUp();
+    }
+
+    public void LetGo() {
+        GameEvents.current.LetGo();
     }
 
     public void ShowInteractionButton(Image image) {
@@ -28,11 +32,13 @@ public class UiManager : MonoBehaviour
     }
 
     public void DisablePickUpButton() {
-        pickupButton.interactable = false;
+        pickupButton.SetActive(false);
+        letGoButton.SetActive(true);
     }
 
     public void EnablePickUpButton() {
-        pickupButton.interactable = true;
+        pickupButton.SetActive(true);
+        letGoButton.SetActive(false);
     }
 
     public void ShowCatInteractionCanvas() {
