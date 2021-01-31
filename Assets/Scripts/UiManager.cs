@@ -21,6 +21,11 @@ public class UiManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI m_questDescription;
     [Header("Player")]
     [SerializeField] private Player player;
+    [SerializeField] private GameObject hud;
+    [SerializeField] private GameObject reputation;
+    [SerializeField] private GameObject panelMainMenu;
+    [SerializeField] private GameObject panelPause;
+    [SerializeField] private GameObject panelGameFinish;
 
     public List<GameObject> OngoingQuestButtonList { get; set; } = new List<GameObject>();
     private void Awake() {
@@ -95,6 +100,31 @@ public class UiManager : MonoBehaviour
         m_ongoingQuestCanvas.SetActive(false);
 
         m_activeQuestText.text = QuestManager.instance.m_ongoingQuests[i].getDescription();
+    }
+
+    public void MainToInGame() {
+        panelMainMenu.SetActive(false);
+        hud.SetActive(true);
+        reputation.SetActive(true);
+    }
+
+    public void QuitButton() {
+        Application.Quit();
+    }
+
+    public void InGameToPause() {
+        panelPause.SetActive(true);
+        hud.SetActive(false);
+    }
+
+    public void PauseToInGame() {
+        panelPause.SetActive(false);
+        hud.SetActive(true);
+    }
+
+    public void InGameToFinish() {
+        hud.SetActive(false);
+        panelGameFinish.SetActive(true);
     }
     #endregion
 }
