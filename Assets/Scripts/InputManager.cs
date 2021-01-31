@@ -9,6 +9,11 @@ public class InputManager : MonoBehaviour
     [SerializeField] private Player player;
 
     public Vector2 direction;
+    /*public ReputationBar reputationBar;
+
+    private int nbQuests = 5;
+    private int catScore = 75;
+    private int bonusScore = 25;*/
 
     private void Awake() {
         current = this;
@@ -34,6 +39,10 @@ public class InputManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E)) player.Interact();
         if (Input.GetKeyDown(KeyCode.A)) UiManager.current.OpenOngoingQuest();
+
+        /*if (Input.GetKeyDown(KeyCode.M)) reputationBar.SetMaxReputation(nbQuests * (catScore + bonusScore));
+        if (Input.GetKeyDown(KeyCode.RightArrow)) reputationBar.AddReputation(catScore + bonusScore); //chat rapporté avec bonus
+        if (Input.GetKeyDown(KeyCode.LeftArrow)) reputationBar.AddReputation(catScore); //chat rapporté sans bonus*/
     }
 
 }
