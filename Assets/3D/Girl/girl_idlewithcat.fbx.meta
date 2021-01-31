@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 57aec4d20aed44b47a5399e2ae4931b1
+guid: 45d7d17529e8d894fb76e9f941e4c011
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable:
   - first:
-      74: 6024857781295041185
-    second: root|h_Call
+      74: -6759688391586908602
+    second: root|h_IdlewithCat
   externalObjects: {}
   materials:
     materialImportMode: 1
