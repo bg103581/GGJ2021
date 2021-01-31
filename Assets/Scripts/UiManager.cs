@@ -19,6 +19,9 @@ public class UiManager : MonoBehaviour
     [SerializeField] private GameObject panelMainMenu;
     [SerializeField] private GameObject panelPause;
     [SerializeField] private GameObject panelGameFinish;
+    [SerializeField] private TextMeshProUGUI timerText;
+    [SerializeField] private int duration;
+    private int timer;
 
     private void Awake() {
         current = this;
@@ -83,6 +86,10 @@ public class UiManager : MonoBehaviour
         panelMainMenu.SetActive(false);
         hud.SetActive(true);
         reputation.SetActive(true);
+
+        timerText.text = duration.ToString();
+        timer = duration;
+        InvokeRepeating("CountDown", 0f, 1f);
     }
 
     public void QuitButton() {
@@ -102,6 +109,17 @@ public class UiManager : MonoBehaviour
     public void InGameToFinish() {
         hud.SetActive(false);
         panelGameFinish.SetActive(true);
+    }
+
+    private void CountDown() {
+        if (timer > 0) {
+            timer--;
+            timerText.text = timer.ToString();
+        }
+        else {
+            CancelInvoke();
+            InGameToFinish();
+        }
     }
     #endregion
 }
