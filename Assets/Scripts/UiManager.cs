@@ -23,6 +23,14 @@ public class UiManager : MonoBehaviour
         GameEvents.current.LetGo();
     }
 
+    public void Caress() {
+        GameEvents.current.Caress();
+    }
+
+    public void Play() {
+        GameEvents.current.Play();
+    }
+
     public void ShowInteractionButton(Image image) {
         image.enabled = true;
     }

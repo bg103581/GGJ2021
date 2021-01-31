@@ -40,6 +40,8 @@ public class Player : MonoBehaviour
 
         GameEvents.current.onPickUpButtonTrigger += PickUpCat;
         GameEvents.current.onLetGoButtonTrigger += LetGoCat;
+        GameEvents.current.onCaressButtonTrigger += Caress;
+        GameEvents.current.onPlayButtonTrigger += Play;
     }
 
     private void Start() {
@@ -65,6 +67,8 @@ public class Player : MonoBehaviour
     private void OnDestroy() {
         GameEvents.current.onPickUpButtonTrigger -= PickUpCat;
         GameEvents.current.onLetGoButtonTrigger -= LetGoCat;
+        GameEvents.current.onCaressButtonTrigger -= Caress;
+        GameEvents.current.onPlayButtonTrigger -= Play;
     }
     #endregion
 
@@ -154,6 +158,14 @@ public class Player : MonoBehaviour
         interactableObjectNear.transform.DOMove(groundPos.position, 1f);
         //setparent null
         interactableObjectNear.transform.SetParent(null);
+    }
+
+    public void Caress() {
+
+    }
+
+    public void Play() {
+
     }
 
     private void StopCinemachine() {
