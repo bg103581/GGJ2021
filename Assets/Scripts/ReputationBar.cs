@@ -5,13 +5,20 @@ using UnityEngine.UI;
 
 public class ReputationBar : MonoBehaviour
 {
+    public static ReputationBar current;
+
     [SerializeField] private Slider slider;
 
-    private int nbQuests = 5;
-    private int catScore = 75;
-    private int bonusScore = 25;
+    public int nbQuests;
+    public int catScore = 75;
+    public int bonusScore = 25;
+
+    private void Awake() {
+        current = this;
+    }
 
     private void Start() {
+        nbQuests = Spawn.instance.QuestList.Count;
         SetMaxReputation(nbQuests * (catScore + bonusScore));
     }
 
@@ -28,5 +35,9 @@ public class ReputationBar : MonoBehaviour
         int sum = (int)slider.value + reput;
         if (sum <= slider.maxValue)
             slider.value += reput;
+    }
+
+    public void SetNbQuests(int nb) {
+        nbQuests = nb;
     }
 }

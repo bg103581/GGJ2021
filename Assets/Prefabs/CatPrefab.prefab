@@ -6251,6 +6251,7 @@ GameObject:
   - component: {fileID: 5660999320596783480}
   - component: {fileID: 1095262513052385887}
   - component: {fileID: 9215632842762466374}
+  - component: {fileID: -9177497757663579260}
   m_Layer: 0
   m_Name: CatPrefab
   m_TagString: Cat
@@ -6343,6 +6344,25 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1.0178761, z: 1.3262352}
   m_Center: {x: 0, y: 0.34857988, z: 0.024579346}
+--- !u!95 &-9177497757663579260
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5417636398399774374}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 328c9e885c42c0b4088b81231695d45f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &5440538498173577018
 GameObject:
   m_ObjectHideFlags: 0

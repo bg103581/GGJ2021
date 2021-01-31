@@ -45,9 +45,10 @@ public class QuestManager : MonoBehaviour
     }
 
     private void QuestValidated(Cat cat, int questIndex, bool validated) {
-        if (validated)
+        if (validated) {
             Debug.LogError("QUEST VALIDATED !");
-        else
+            ReputationBar.current.AddReputation(ReputationBar.current.catScore);
+        } else
             Debug.LogError("QUEST FAILED :( Make sure to properly read the description next time !");
 
         /* Add updateReputation here */

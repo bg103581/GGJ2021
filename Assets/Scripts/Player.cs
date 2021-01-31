@@ -100,7 +100,7 @@ public class Player : MonoBehaviour
     }
 
     public void Jump() {
-        if (isGrounded && !isInCatInteractMenu && !isInAnimation && !isCatCarried && !isInLetGoAnimation) {
+        if (isGrounded && !isInCatInteractMenu && !isInAnimation && !isInLetGoAnimation) {
             isGrounded = false;
             rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
             rb.velocity += Vector3.up * jumpVelocity;
