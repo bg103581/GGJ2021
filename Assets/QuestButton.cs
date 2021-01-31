@@ -11,6 +11,7 @@ public class QuestButton : MonoBehaviour
 
     private void Awake() {
         thisButton = GetComponent<Button>();
+        thisButton.onClick.RemoveAllListeners();
         thisButton.onClick.AddListener(() => OpenQuest());
     }
 
