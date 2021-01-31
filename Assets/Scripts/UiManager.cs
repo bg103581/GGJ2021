@@ -7,14 +7,22 @@ using UnityEngine.UI;
 public class UiManager : MonoBehaviour
 {
     [HideInInspector] public static UiManager current;
+    [Header("Cat UI")]
     [SerializeField] private GameObject m_catInteractionCanvas;
-    [SerializeField] private GameObject m_questInteractionCanvas;
-    [SerializeField] private GameObject m_ongoingQuestCanvas;
-    [SerializeField] private TextMeshProUGUI m_questDescription;
     [SerializeField] private GameObject pickupButton;
     [SerializeField] private GameObject letGoButton;
+    [Header("Quest UI")]
+    [SerializeField] private GameObject m_questInteractionCanvas;
+    [SerializeField] private GameObject m_ongoingQuestCanvas;
+    [SerializeField] private GameObject m_activeQuestCanvas;
+    [SerializeField] private TextMeshProUGUI m_activeQuestText;
+    [SerializeField] private Transform m_ongoingQuestHolder;
+    [SerializeField] private GameObject m_ongoingQuestButtonPrefab;
+    [SerializeField] private TextMeshProUGUI m_questDescription;
+    [Header("Player")]
     [SerializeField] private Player player;
 
+    public List<GameObject> OngoingQuestButtonList { get; set; } = new List<GameObject>();
     private void Awake() {
         current = this;
     }
@@ -63,6 +71,10 @@ public class UiManager : MonoBehaviour
         if (accept) {
             ShowQuestCanvas(false);
             QuestManager.instance.AddQuest(player.quest);
+            GameObject go = Instantiate(m_ongoingQuestButtonPrefab, m_ongoingQuestHolder);
+            go.GetComponent<QuestButton>().ButtonIndex = OngoingQuestButtonList.Count;
+            OngoingQuestButtonList.Add(go);
+
             player.quest.gameObject.SetActive(false);
             player.ShowQuestInteraction(false);
         } else {
@@ -70,8 +82,19 @@ public class UiManager : MonoBehaviour
         }
     }
 
-    public void OpenOngoingQuest() {
-        m_ongoingQuestCanvas.SetActive(true);
+    public void OpenOngoingQuestList() {
+        m_ongoingQuestCanvas.SetActive(m_activeQuestCanvas.activeInHierarchy);
+
+        if (m_ongoingQuestCanvas.activeInHierarchy)
+            m_activeQuestCanvas.SetActive(false);
+    }
+
+    public void OpenQuest(int i) {
+        m_activeQuestText.text = "";
+        m_activeQuestCanvas.SetActive(true);
+        m_ongoingQuestCanvas.SetActive(false);
+
+        m_activeQuestText.text = QuestManager.instance.m_ongoingQuests[i].getDescription();
     }
     #endregion
 }

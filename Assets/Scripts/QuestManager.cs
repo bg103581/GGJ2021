@@ -6,9 +6,7 @@ using UnityEngine;
 public class QuestManager : MonoBehaviour
 {
     [HideInInspector] public static QuestManager instance;
-    [SerializeField] private List<Quest> m_ongoingQuests = new List<Quest>();
-    //[SerializeField] private List<GameObject> m_ongoingQuestButtons = new List<GameObject>();
-
+    [SerializeField] public List<Quest> m_ongoingQuests = new List<Quest>();
     [SerializeField] private List<string> questIdList = new List<string>();
     [SerializeField] private List<string> questHouseList = new List<string>();
 
@@ -53,7 +51,7 @@ public class QuestManager : MonoBehaviour
             Debug.LogError("QUEST FAILED :( Make sure to properly read the description next time !");
 
         /* Add updateReputation here */
-        //Destroy(m_ongoingQuestButtons[questIndex]);
+        Destroy(UiManager.current.OngoingQuestButtonList[questIndex]);
 
         int ongoingQuestIndex = Spawn.instance.AllQuestId.IndexOf(cat.Id);
         Destroy(Spawn.instance.QuestList[ongoingQuestIndex].gameObject);

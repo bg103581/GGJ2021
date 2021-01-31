@@ -40,7 +40,7 @@ public class InputManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space)) player.Jump();
 
         if (Input.GetKeyDown(KeyCode.E)) player.Interact();
-        if (Input.GetKeyDown(KeyCode.A)) UiManager.current.OpenOngoingQuest();
+        if (Input.GetKeyDown(KeyCode.A)) UiManager.current.OpenOngoingQuestList();
 
         /*if (Input.GetKeyDown(KeyCode.M)) reputationBar.SetMaxReputation(nbQuests * (catScore + bonusScore));
         if (Input.GetKeyDown(KeyCode.RightArrow)) reputationBar.AddReputation(catScore + bonusScore); //chat rapporté avec bonus
