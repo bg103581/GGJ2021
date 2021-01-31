@@ -282,5 +282,11 @@ public class Player : MonoBehaviour
         cinemachine.m_YAxis.m_MaxSpeed = cinemachineYSpeed;
         cinemachine.m_XAxis.m_MaxSpeed = cinemachineXSpeed;
     }
+
+    public void Pause() {
+        UiManager.current.InGameToPause();
+        Time.timeScale = 0;
+    }
+    
     #endregion
 }

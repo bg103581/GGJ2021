@@ -131,6 +131,7 @@ public class UiManager : MonoBehaviour
     public void PauseToInGame() {
         panelPause.SetActive(false);
         hud.SetActive(true);
+        Time.timeScale = 1;
     }
 
     public void InGameToFinish() {
