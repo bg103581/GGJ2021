@@ -48,6 +48,10 @@ public class UiManager : MonoBehaviour
     public void Play() {
         GameEvents.current.Play();
     }
+
+    public void Call() {
+        GameEvents.current.Call();
+    }
     #endregion
 
     #region Interaction Button
