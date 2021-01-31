@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Cat
+public class Cat : MonoBehaviour
 {
     #region PROPERTIES
     private Fur fur;
@@ -11,7 +11,7 @@ public class Cat
     private Personality personality;
     #endregion
 
-    public Cat(Fur color, Pattern mark, Collar neckline, Personality behavior) {
+    public void SetCat(Fur color, Pattern mark, Collar neckline, Personality behavior) {
         fur = color;
         pattern = mark;
         collar = neckline;
@@ -19,7 +19,7 @@ public class Cat
     }
 
     #region GETTERS AND SETTERS
-    public string Id { get; set; }
+    [SerializeField] public string Id;// { get; set; }
     public Fur getFur() { return fur; }
     public Pattern getPattern() { return pattern; }
     public Collar getCollar() { return collar; }

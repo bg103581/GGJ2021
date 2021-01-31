@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Spawn : MonoBehaviour
 {
+    [HideInInspector] public static Spawn instance;
+
     [Header("Prefabs")]
     [SerializeField] private GameObject m_playerPrefab = null;
     [SerializeField] private GameObject m_catPrefab = null;
@@ -11,6 +13,8 @@ public class Spawn : MonoBehaviour
     [SerializeField] private HouseManager m_houseManager;
 
     [Header("Spawn Positions")]
+    [SerializeField] private Transform m_catSpawnAreaHolder = null;
+    [SerializeField] private Transform m_questSpawnAreaHolder = null;
     [SerializeField] private List<Transform> m_catSpawnAreas = new List<Transform>();
     [SerializeField] private List<Transform> m_questSpawnAreas = new List<Transform>();
 
@@ -25,7 +29,6 @@ public class Spawn : MonoBehaviour
 
     /* Class list */
     private List<Cat> catList = new List<Cat>(); // Used to associate quests with their corresponding cats.
-    private List<Quest> questList = new List<Quest>();
 
     /* Possible spawn area list */
     private List<Transform> chasseurPosList = new List<Transform>();
@@ -33,6 +36,13 @@ public class Spawn : MonoBehaviour
     private List<Transform> joueurPosList = new List<Transform>();
 
     private void Awake() {
+        instance = this;
+
+        foreach(Transform catSpawn in m_catSpawnAreaHolder)
+            m_catSpawnAreas.Add(catSpawn);
+
+        foreach (Transform questSpawn in m_questSpawnAreaHolder)
+            m_questSpawnAreas.Add(questSpawn);
 
         if (totalCats < totalQuests) {
             Debug.LogError("Total number of quests depasses the number of total cats ! Make sure you have at least the same number of both.");
@@ -46,7 +56,7 @@ public class Spawn : MonoBehaviour
                 SpawnObject(SpawnObjects.CAT);
             }
 
-            while (questList.Count < totalQuests) {
+            while (QuestList.Count < totalQuests) {
                 SpawnObject(SpawnObjects.QUEST);
             }
         }
@@ -105,16 +115,16 @@ public class Spawn : MonoBehaviour
                             break;
                     }
 
-                    catIdList.Add(catId);
-                    Cat cat = new Cat(fur, pattern, collar, personality) {
-                        Id = catId
-                    };
-                    catList.Add(cat);
-
                     GameObject go = Instantiate(m_catPrefab, position);
                     go.transform.localPosition = Vector3.zero;
                     go.transform.localRotation = position.rotation;
                     go.GetComponent<CatMaterialSetter>().SetMaterials(fur, pattern, collar);
+
+                    catIdList.Add(catId);
+                    Cat cat = go.GetComponent<Cat>();
+                    cat.SetCat(fur, pattern, collar, personality);
+                    cat.Id = catId;
+                    catList.Add(cat);
                 }
 
                 break;
@@ -129,10 +139,6 @@ public class Spawn : MonoBehaviour
                     questCatIdList.Add(catIdList[catIndex]);
                     questHouseList.Add(houses[houseIndex]);
 
-                    Cat questCat = catList[catIndex];
-                    Quest quest = new Quest(questCat, houses[houseIndex]);
-                    questList.Add(quest);
-
                     /*TO DO : Update quest description*/
 
                     int randomSpawnIndex = Random.Range(0, m_questSpawnAreas.Count);
@@ -140,9 +146,15 @@ public class Spawn : MonoBehaviour
 
                     GameObject go = Instantiate(m_questPrefab, position);
                     go.transform.localPosition = Vector3.zero;
-                    go.transform.localRotation = new Quaternion(0,0,0,0);
 
                     m_questSpawnAreas.RemoveAt(randomSpawnIndex);
+
+                    Cat questCat = catList[catIndex];
+                    Quest quest = go.GetComponent<Quest>();
+                    quest.SetQuest(questCat, houses[houseIndex]);
+                    quest.Id = questCat.Id;
+                    QuestList.Add(quest);
+                    AllQuestId.Add(quest.Id);
                 }
 
                 break;
@@ -151,4 +163,7 @@ public class Spawn : MonoBehaviour
                 break;
         }
     }
+
+    public List<string> AllQuestId { get; set; } = new List<string>();
+    public List<Quest> QuestList { get; set; } = new List<Quest>();
 }

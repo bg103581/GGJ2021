@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using Cinemachine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Player : MonoBehaviour
@@ -15,17 +16,22 @@ public class Player : MonoBehaviour
     [SerializeField] private float turnSmoothTime = 0.1f;
     private float turnSmoothVelocity;
     [SerializeField] private Transform catPos;
+    [SerializeField] private Transform groundPos;
     [SerializeField] private CinemachineFreeLook cinemachine;
 
-    [HideInInspector] public bool canInteract = false;
-    [HideInInspector] public string interactableObjectName;
+    [HideInInspector] public bool objectIsInteractable = false;
+    [HideInInspector] public bool isCatCarried = false;
     [HideInInspector] public GameObject interactableObjectNear;
+    [HideInInspector] public Quest quest = null;
 
+    private GameObject carriedCat = null;
     private Rigidbody rb;
     private Vector2 dir;
     private Vector3 moveDir;
-    private bool isCatCarried;
-    private bool isInInteractMenu;
+
+    private bool isInCatInteractMenu = false;
+    private bool isInQuestInteractMenu = false;
+
     private float cinemachineYSpeed;
     private float cinemachineXSpeed;
 
@@ -38,6 +44,9 @@ public class Player : MonoBehaviour
         cinemachineXSpeed = cinemachine.m_XAxis.m_MaxSpeed;
 
         GameEvents.current.onPickUpButtonTrigger += PickUpCat;
+        GameEvents.current.onLetGoButtonTrigger += LetGoCat;
+        GameEvents.current.onCaressButtonTrigger += Caress;
+        GameEvents.current.onPlayButtonTrigger += Play;
     }
 
     private void Start() {
@@ -62,19 +71,22 @@ public class Player : MonoBehaviour
 
     private void OnDestroy() {
         GameEvents.current.onPickUpButtonTrigger -= PickUpCat;
+        GameEvents.current.onLetGoButtonTrigger -= LetGoCat;
+        GameEvents.current.onCaressButtonTrigger -= Caress;
+        GameEvents.current.onPlayButtonTrigger -= Play;
     }
     #endregion
 
     #region Methods
     private void Walk() {
-        if (isInInteractMenu)
+        if (isInCatInteractMenu || isInQuestInteractMenu)
             rb.velocity = Vector3.zero;
         else
             rb.velocity = new Vector3(moveDir.x * speed, rb.velocity.y, moveDir.z * speed);
     }
 
     public void Jump() {
-        if (isGrounded && !isInInteractMenu) {
+        if (isGrounded && !isInCatInteractMenu) {
             isGrounded = false;
             rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
             rb.velocity += Vector3.up * jumpVelocity;
@@ -82,7 +94,7 @@ public class Player : MonoBehaviour
     }
 
     private void Rotate() {
-        if (dir.magnitude >= 0.1f && !isInInteractMenu) {
+        if (dir.magnitude >= 0.1f && !(isInCatInteractMenu || isInQuestInteractMenu)) {
             float targetAngle = Mathf.Atan2(dir.x, dir.y) * Mathf.Rad2Deg + camera.eulerAngles.y;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
 
@@ -96,47 +108,112 @@ public class Player : MonoBehaviour
     }
 
     public void Interact() {
-        if (canInteract) {
-            switch (interactableObjectName) {
-                case ("Cat"):
-                    if (isInInteractMenu) {
-                        UiManager.current.HideCatInteractionCanvas();
-                        isInInteractMenu = false;
-                        ResumeCinemachine();
-                    }
-                    else {
-                        UiManager.current.ShowCatInteractionCanvas();
-                        isInInteractMenu = true;
-                        StopCinemachine();
-                    }
+        if (!isCatCarried) {
 
-                    if (isCatCarried) UiManager.current.DisablePickUpButton();
-                    
-                    break;
+            if (objectIsInteractable && interactableObjectNear != null) {
 
-                case ("Quest"):
-                    isInInteractMenu = true;
-                    StopCinemachine();
-                    break;
+                switch (interactableObjectNear.tag) {
 
-                case ("House"):
-                    break;
+                    case ("Cat"):
 
-                default:
-                    break;
+                        if (!isInCatInteractMenu) {
+                            ShowCatInteraction(true);
+                        } else {
+                            ShowCatInteraction(false);
+                        }
+
+                        break;
+
+                    case ("Quest"):
+                        quest = interactableObjectNear.GetComponent<Quest>();
+
+                        if (!isInQuestInteractMenu) {
+                            ShowQuestInteraction(true, quest);
+                        } else {
+                            ShowQuestInteraction(false);
+                        }
+
+                        break;
+
+                    default:
+                        break;
+                }
+            } else {
+                objectIsInteractable = false;
+            }
+        } else {
+            if (!isInCatInteractMenu) {
+                ShowCatInteraction(true);
+            } else {
+                ShowCatInteraction(false);
             }
         }
     }
 
     public void PickUpCat() {
-        UiManager.current.HideCatInteractionCanvas();
-        isInInteractMenu = false;
+        UiManager.current.ShowCatInteractionCanvas(false);
+        isInCatInteractMenu = false;
         ResumeCinemachine();
 
+        carriedCat = interactableObjectNear;
         isCatCarried = true;
-        interactableObjectNear.transform.SetParent(catPos);
-        interactableObjectNear.transform.DOLocalMove(Vector3.zero, 1f);
-        interactableObjectNear.transform.DOLocalRotate(Vector3.zero, 1f);
+        Image interactionButton = carriedCat.GetComponent<InteractionButton>().interactionButton;
+        UiManager.current.ShowInteractionButton(interactionButton, false);
+
+        carriedCat.transform.SetParent(catPos);
+        carriedCat.transform.DOLocalMove(Vector3.zero, 1f);
+        carriedCat.transform.DOLocalRotate(Vector3.zero, 1f);
+
+        UiManager.current.EnablePickUpButton(false);
+    }
+
+    public void LetGoCat() {
+        UiManager.current.ShowCatInteractionCanvas(false);
+        isInCatInteractMenu = false;
+        ResumeCinemachine();
+
+        isCatCarried = false;
+        //move to ground
+        carriedCat.transform.DOMove(groundPos.position, 1f);
+        //setparent null
+        carriedCat.transform.SetParent(null);
+
+        if (interactableObjectNear.CompareTag("House")) {
+            Cat cat = carriedCat.GetComponent<Cat>();
+            QuestManager.instance.FinishCurrentQuest(interactableObjectNear, cat);
+        }
+
+        carriedCat = null;
+
+        UiManager.current.EnablePickUpButton(true);
+
+    }
+
+    public void Caress() {
+
+    }
+
+    public void Play() {
+
+    }
+
+    public void ShowQuestInteraction(bool show, Quest quest = null) {
+        UiManager.current.ShowQuestCanvas(show, quest);
+        isInQuestInteractMenu = show;
+
+        if (show)
+            StopCinemachine();
+        else
+            ResumeCinemachine();
+    }
+    public void ShowCatInteraction(bool show) {
+        UiManager.current.ShowCatInteractionCanvas(show);
+        isInCatInteractMenu = show;
+
+        if (show)
+            StopCinemachine();
+        else
+            ResumeCinemachine();
     }
 
     private void StopCinemachine() {
