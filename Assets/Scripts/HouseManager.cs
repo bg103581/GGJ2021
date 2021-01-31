@@ -26,6 +26,7 @@ public class HouseManager : MonoBehaviour
 
             houseNumbers.Add(id);
             house.setHouseNumber(id);
+            house.houseNumberText.text = id;
         }
     }
     #endregion

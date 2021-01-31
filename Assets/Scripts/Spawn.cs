@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Spawn : MonoBehaviour
 {
+    [HideInInspector] public static Spawn instance;
+
     [Header("Prefabs")]
     [SerializeField] private GameObject m_playerPrefab = null;
     [SerializeField] private GameObject m_catPrefab = null;
@@ -27,7 +29,6 @@ public class Spawn : MonoBehaviour
 
     /* Class list */
     private List<Cat> catList = new List<Cat>(); // Used to associate quests with their corresponding cats.
-    private List<Quest> questList = new List<Quest>();
 
     /* Possible spawn area list */
     private List<Transform> chasseurPosList = new List<Transform>();
@@ -35,6 +36,7 @@ public class Spawn : MonoBehaviour
     private List<Transform> joueurPosList = new List<Transform>();
 
     private void Awake() {
+        instance = this;
 
         foreach(Transform catSpawn in m_catSpawnAreaHolder)
             m_catSpawnAreas.Add(catSpawn);
@@ -54,7 +56,7 @@ public class Spawn : MonoBehaviour
                 SpawnObject(SpawnObjects.CAT);
             }
 
-            while (questList.Count < totalQuests) {
+            while (QuestList.Count < totalQuests) {
                 SpawnObject(SpawnObjects.QUEST);
             }
         }
@@ -151,7 +153,8 @@ public class Spawn : MonoBehaviour
                     Quest quest = go.GetComponent<Quest>();
                     quest.SetQuest(questCat, houses[houseIndex]);
                     quest.Id = questCat.Id;
-                    questList.Add(quest);
+                    QuestList.Add(quest);
+                    AllQuestId.Add(quest.Id);
                 }
 
                 break;
@@ -160,4 +163,7 @@ public class Spawn : MonoBehaviour
                 break;
         }
     }
+
+    public List<string> AllQuestId { get; set; } = new List<string>();
+    public List<Quest> QuestList { get; set; } = new List<Quest>();
 }

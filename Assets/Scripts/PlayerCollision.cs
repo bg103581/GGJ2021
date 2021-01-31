@@ -43,6 +43,10 @@ public class PlayerCollision : MonoBehaviour
                 }
                 break;
 
+            case ("House"):
+                player.interactableObjectNear = other.gameObject;
+                break;
+
             default: break;
         }
     }

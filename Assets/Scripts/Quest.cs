@@ -36,7 +36,7 @@ public class Quest : MonoBehaviour
     #region GETTERS AND SETTERS
     public string getDescription() { return description; }
     public Cat getCat() { return catQuest; }
-    public string getOwnerHouser() { return ownerHouse; } 
+    public string getHouseId() { return ownerHouse; } 
 
     #endregion
 }

@@ -9,6 +9,7 @@ public class UiManager : MonoBehaviour
     [HideInInspector] public static UiManager current;
     [SerializeField] private GameObject m_catInteractionCanvas;
     [SerializeField] private GameObject m_questInteractionCanvas;
+    [SerializeField] private GameObject m_ongoingQuestCanvas;
     [SerializeField] private TextMeshProUGUI m_questDescription;
     [SerializeField] private GameObject pickupButton;
     [SerializeField] private GameObject letGoButton;
@@ -70,7 +71,7 @@ public class UiManager : MonoBehaviour
     }
 
     public void OpenOngoingQuest() {
-
+        m_ongoingQuestCanvas.SetActive(true);
     }
     #endregion
 }

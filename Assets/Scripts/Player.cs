@@ -134,8 +134,6 @@ public class Player : MonoBehaviour
                         }
 
                         break;
-                    //case ("House"):
-                    //    break;
 
                     default:
                         break;
@@ -179,9 +177,16 @@ public class Player : MonoBehaviour
         carriedCat.transform.DOMove(groundPos.position, 1f);
         //setparent null
         carriedCat.transform.SetParent(null);
+
+        if (interactableObjectNear.CompareTag("House")) {
+            Cat cat = carriedCat.GetComponent<Cat>();
+            QuestManager.instance.FinishCurrentQuest(interactableObjectNear, cat);
+        }
+
         carriedCat = null;
 
         UiManager.current.EnablePickUpButton(true);
+
     }
 
     public void Caress() {
