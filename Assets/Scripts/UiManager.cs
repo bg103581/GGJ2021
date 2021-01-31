@@ -14,6 +14,11 @@ public class UiManager : MonoBehaviour
     [SerializeField] private GameObject pickupButton;
     [SerializeField] private GameObject letGoButton;
     [SerializeField] private Player player;
+    [SerializeField] private GameObject hud;
+    [SerializeField] private GameObject reputation;
+    [SerializeField] private GameObject panelMainMenu;
+    [SerializeField] private GameObject panelPause;
+    [SerializeField] private GameObject panelGameFinish;
 
     private void Awake() {
         current = this;
@@ -72,6 +77,31 @@ public class UiManager : MonoBehaviour
 
     public void OpenOngoingQuest() {
         m_ongoingQuestCanvas.SetActive(true);
+    }
+
+    public void MainToInGame() {
+        panelMainMenu.SetActive(false);
+        hud.SetActive(true);
+        reputation.SetActive(true);
+    }
+
+    public void QuitButton() {
+        Application.Quit();
+    }
+
+    public void InGameToPause() {
+        panelPause.SetActive(true);
+        hud.SetActive(false);
+    }
+
+    public void PauseToInGame() {
+        panelPause.SetActive(false);
+        hud.SetActive(true);
+    }
+
+    public void InGameToFinish() {
+        hud.SetActive(false);
+        panelGameFinish.SetActive(true);
     }
     #endregion
 }
