@@ -19,23 +19,31 @@ public class PlayerCollision : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other) {
-        if (other.CompareTag("Cat")) { // || other.tag == "Quest" || other.tag == "House") {
-            //if (!player.isCatCarried) {
-            //    UiManager.current.ShowInteractionButton(other.gameObject.GetComponent<InteractionButton>().interactionButton);
-            //    player.canInteract = true;
-            //    player.interactableObjectName = other.tag;
-            //    player.interactableObjectNear = other.gameObject;
-            //}
+        switch (other.tag) {
+            case ("Cat"):
 
-            player.objectIsInteractable = true;
+                player.objectIsInteractable = true;
 
-            if (!player.isCatCarried) {
-                Image interactionButton = other.gameObject.GetComponent<InteractionButton>().interactionButton;
-                UiManager.current.ShowInteractionButton(interactionButton);
-                player.interactableObjectNear = other.gameObject;
-            }
+                if (!player.isCatCarried) {
+                    Image interactionButton = other.gameObject.GetComponent<InteractionButton>().interactionButton;
+                    UiManager.current.ShowInteractionButton(interactionButton, true);
+                    player.interactableObjectNear = other.gameObject;
+                }
 
-        Debug.LogError(other.tag);
+                break;
+
+            case ("Quest"):
+
+                player.objectIsInteractable = true;
+
+                if (!player.isCatCarried) {
+                    Image interactionButton = other.gameObject.GetComponent<InteractionButton>().interactionButton;
+                    UiManager.current.ShowInteractionButton(interactionButton, true);
+                    player.interactableObjectNear = other.gameObject;
+                }
+                break;
+
+            default: break;
         }
     }
 
@@ -43,16 +51,33 @@ public class PlayerCollision : MonoBehaviour
         if (other.CompareTag("Cat")) {
             if (player.isCatCarried) {
                 Image interactionButton = other.gameObject.GetComponent<InteractionButton>().interactionButton;
-                UiManager.current.HideInteractionButton(interactionButton);
+                UiManager.current.ShowInteractionButton(interactionButton, false);
             }
         }
+
+        player.interactableObjectNear = other.gameObject;
     }
     private void OnTriggerExit(Collider other) {
-        if (other.tag == "Cat") {// || other.tag == "Quest" || other.tag == "House") {
-            UiManager.current.HideInteractionButton(other.gameObject.GetComponent<InteractionButton>().interactionButton);
+        Image interactionButton;
 
-            player.objectIsInteractable = false;
-            player.interactableObjectNear = null;
+        switch (other.tag) {
+            case ("Cat"):
+                interactionButton = other.gameObject.GetComponent<InteractionButton>().interactionButton;
+                UiManager.current.ShowInteractionButton(interactionButton, false);
+
+                player.objectIsInteractable = false;
+                player.interactableObjectNear = null;
+                break;
+
+            case ("Quest"):
+                interactionButton = other.gameObject.GetComponent<InteractionButton>().interactionButton;
+                UiManager.current.ShowInteractionButton(interactionButton, false);
+
+                player.objectIsInteractable = false;
+                player.interactableObjectNear = null;
+
+                break;
+            default: break;
         }
     }
 }

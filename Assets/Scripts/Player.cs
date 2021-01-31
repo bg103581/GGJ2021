@@ -22,12 +22,16 @@ public class Player : MonoBehaviour
     [HideInInspector] public bool objectIsInteractable = false;
     [HideInInspector] public bool isCatCarried = false;
     [HideInInspector] public GameObject interactableObjectNear;
+    [HideInInspector] public Quest quest = null;
 
     private GameObject carriedCat = null;
     private Rigidbody rb;
     private Vector2 dir;
     private Vector3 moveDir;
-    private bool isInCatInteractMenu;
+
+    private bool isInCatInteractMenu = false;
+    private bool isInQuestInteractMenu = false;
+
     private float cinemachineYSpeed;
     private float cinemachineXSpeed;
 
@@ -75,7 +79,7 @@ public class Player : MonoBehaviour
 
     #region Methods
     private void Walk() {
-        if (isInCatInteractMenu)
+        if (isInCatInteractMenu || isInQuestInteractMenu)
             rb.velocity = Vector3.zero;
         else
             rb.velocity = new Vector3(moveDir.x * speed, rb.velocity.y, moveDir.z * speed);
@@ -90,7 +94,7 @@ public class Player : MonoBehaviour
     }
 
     private void Rotate() {
-        if (dir.magnitude >= 0.1f && !isInCatInteractMenu) {
+        if (dir.magnitude >= 0.1f && !(isInCatInteractMenu || isInQuestInteractMenu)) {
             float targetAngle = Mathf.Atan2(dir.x, dir.y) * Mathf.Rad2Deg + camera.eulerAngles.y;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
 
@@ -113,22 +117,23 @@ public class Player : MonoBehaviour
                     case ("Cat"):
 
                         if (!isInCatInteractMenu) {
-                            UiManager.current.ShowCatInteractionCanvas();
-                            isInCatInteractMenu = true;
-                            StopCinemachine();
+                            ShowCatInteraction(true);
                         } else {
-                            UiManager.current.HideCatInteractionCanvas();
-                            isInCatInteractMenu = false;
-                            ResumeCinemachine();
+                            ShowCatInteraction(false);
                         }
 
                         break;
 
-                    //case ("Quest"):
-                    //    isInInteractMenu = true;
-                    //    StopCinemachine();
-                    //    break;
+                    case ("Quest"):
+                        quest = interactableObjectNear.GetComponent<Quest>();
 
+                        if (!isInQuestInteractMenu) {
+                            ShowQuestInteraction(true, quest);
+                        } else {
+                            ShowQuestInteraction(false);
+                        }
+
+                        break;
                     //case ("House"):
                     //    break;
 
@@ -140,26 +145,22 @@ public class Player : MonoBehaviour
             }
         } else {
             if (!isInCatInteractMenu) {
-                UiManager.current.ShowCatInteractionCanvas();
-                isInCatInteractMenu = true;
-                StopCinemachine();
+                ShowCatInteraction(true);
             } else {
-                UiManager.current.HideCatInteractionCanvas();
-                isInCatInteractMenu = false;
-                ResumeCinemachine();
+                ShowCatInteraction(false);
             }
         }
     }
 
     public void PickUpCat() {
-        UiManager.current.HideCatInteractionCanvas();
+        UiManager.current.ShowCatInteractionCanvas(false);
         isInCatInteractMenu = false;
         ResumeCinemachine();
 
         carriedCat = interactableObjectNear;
         isCatCarried = true;
         Image interactionButton = carriedCat.GetComponent<InteractionButton>().interactionButton;
-        UiManager.current.HideInteractionButton(interactionButton);
+        UiManager.current.ShowInteractionButton(interactionButton, false);
 
         carriedCat.transform.SetParent(catPos);
         carriedCat.transform.DOLocalMove(Vector3.zero, 1f);
@@ -169,7 +170,7 @@ public class Player : MonoBehaviour
     }
 
     public void LetGoCat() {
-        UiManager.current.HideCatInteractionCanvas();
+        UiManager.current.ShowCatInteractionCanvas(false);
         isInCatInteractMenu = false;
         ResumeCinemachine();
 
@@ -189,6 +190,25 @@ public class Player : MonoBehaviour
 
     public void Play() {
 
+    }
+
+    public void ShowQuestInteraction(bool show, Quest quest = null) {
+        UiManager.current.ShowQuestCanvas(show, quest);
+        isInQuestInteractMenu = show;
+
+        if (show)
+            StopCinemachine();
+        else
+            ResumeCinemachine();
+    }
+    public void ShowCatInteraction(bool show) {
+        UiManager.current.ShowCatInteractionCanvas(show);
+        isInCatInteractMenu = show;
+
+        if (show)
+            StopCinemachine();
+        else
+            ResumeCinemachine();
     }
 
     private void StopCinemachine() {

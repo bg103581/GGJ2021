@@ -70,6 +70,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: HousePrefabPlaceholder (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 8401685952005856492, guid: ec5e6a6ea79e7824e8ba61eadc795698,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 9130663768818179919, guid: ec5e6a6ea79e7824e8ba61eadc795698,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -144,6 +149,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: HousePrefabPlaceholder (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8401685952005856492, guid: ec5e6a6ea79e7824e8ba61eadc795698,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 9130663768818179919, guid: ec5e6a6ea79e7824e8ba61eadc795698,
         type: 3}
@@ -220,6 +230,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: HousePrefabPlaceholder (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 8401685952005856492, guid: ec5e6a6ea79e7824e8ba61eadc795698,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 9130663768818179919, guid: ec5e6a6ea79e7824e8ba61eadc795698,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -294,6 +309,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: HousePrefabPlaceholder (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8401685952005856492, guid: ec5e6a6ea79e7824e8ba61eadc795698,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 9130663768818179919, guid: ec5e6a6ea79e7824e8ba61eadc795698,
         type: 3}
@@ -370,6 +390,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: HousePrefabPlaceholder
       objectReference: {fileID: 0}
+    - target: {fileID: 8401685952005856492, guid: ec5e6a6ea79e7824e8ba61eadc795698,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 9130663768818179919, guid: ec5e6a6ea79e7824e8ba61eadc795698,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -445,6 +470,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: HousePrefabPlaceholder (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 8401685952005856492, guid: ec5e6a6ea79e7824e8ba61eadc795698,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 9130663768818179919, guid: ec5e6a6ea79e7824e8ba61eadc795698,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -519,6 +549,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: HousePrefabPlaceholder (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8401685952005856492, guid: ec5e6a6ea79e7824e8ba61eadc795698,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 9130663768818179919, guid: ec5e6a6ea79e7824e8ba61eadc795698,
         type: 3}
