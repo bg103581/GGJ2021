@@ -51,6 +51,7 @@ public class Player : MonoBehaviour
         GameEvents.current.onLetGoButtonTrigger += LetGoCat;
         GameEvents.current.onCaressButtonTrigger += Caress;
         GameEvents.current.onPlayButtonTrigger += Play;
+        GameEvents.current.onCallButtonTrigger += Call;
     }
 
     private void Start() {
@@ -86,6 +87,7 @@ public class Player : MonoBehaviour
         GameEvents.current.onLetGoButtonTrigger -= LetGoCat;
         GameEvents.current.onCaressButtonTrigger -= Caress;
         GameEvents.current.onPlayButtonTrigger -= Play;
+        GameEvents.current.onCallButtonTrigger -= Call;
     }
     #endregion
 
@@ -223,20 +225,33 @@ public class Player : MonoBehaviour
     }
 
     public void Caress() {
-        isInAnimation = true;
-        anim.SetTrigger("caressTrigger");
+        if (interactableObjectNear.tag == "Cat") {
+            Personality personality = interactableObjectNear.GetComponent<Cat>().getPersonality();
+            if (personality == Personality.FEARFUL || personality == Personality.SLEEPY) {
+                isInAnimation = true;
+                anim.SetTrigger("caressTrigger");
+            }
+            //else Destroy(interactableObjectNear);
+        }
     }
 
     public void Play() {
-        isInAnimation = true;
-        anim.SetTrigger("playTrigger");
-        Animator catAnim = carriedCat.GetComponent<Animator>();
-        catAnim.SetTrigger("playTrigger");
+        if (interactableObjectNear.tag == "Cat") {
+            if (interactableObjectNear.GetComponent<Cat>().getPersonality() == Personality.PLAYFUL) {
+                isInAnimation = true;
+                anim.SetTrigger("playTrigger");
+                Animator catAnim = interactableObjectNear.GetComponent<Animator>();
+                catAnim.SetTrigger("playTrigger");
+            }
+            //else Destroy(interactableObjectNear);
+        }
     }
 
     public void Call() {
-        isInAnimation = true;
-        anim.SetTrigger("callTrigger");
+        if (interactableObjectNear.tag == "Cat") {
+            isInAnimation = true;
+            anim.SetTrigger("callTrigger");
+        }
     }
 
     public void ShowQuestInteraction(bool show, Quest quest = null) {

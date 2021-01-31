@@ -38,4 +38,11 @@ public class GameEvents : MonoBehaviour
             onPlayButtonTrigger();
         }
     }
+
+    public event Action onCallButtonTrigger;
+    public void Call() {
+        if (onCallButtonTrigger != null) {
+            onCallButtonTrigger();
+        }
+    }
 }
