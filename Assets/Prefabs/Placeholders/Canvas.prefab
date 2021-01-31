@@ -1580,7 +1580,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 29.5
+  m_fontSize: 38.2
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3145,6 +3145,13 @@ MonoBehaviour:
     type: 3}
   m_questDescription: {fileID: 77150637437612250}
   player: {fileID: 0}
+  hud: {fileID: 0}
+  reputation: {fileID: 0}
+  panelMainMenu: {fileID: 0}
+  panelPause: {fileID: 0}
+  panelGameFinish: {fileID: 0}
+  timerText: {fileID: 0}
+  duration: 0
 --- !u!1 &77150638179729144
 GameObject:
   m_ObjectHideFlags: 0
@@ -7070,7 +7077,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 22.15
+  m_fontSize: 29.35
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
