@@ -316,7 +316,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1454213818}
   direction: {x: 0, y: 0}
-  anim: {fileID: 2047235304}
 --- !u!4 &123276409
 Transform:
   m_ObjectHideFlags: 0
@@ -1252,9 +1251,10 @@ MonoBehaviour:
   catPos: {fileID: 1833981452}
   groundPos: {fileID: 70987659}
   cinemachine: {fileID: 1959594206}
-  canInteract: 0
-  interactableObjectName: 
+  objectIsInteractable: 0
+  isCatCarried: 0
   interactableObjectNear: {fileID: 0}
+  quest: {fileID: 0}
   isGrounded: 1
 --- !u!4 &1454213819
 Transform:
