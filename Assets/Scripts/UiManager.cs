@@ -88,7 +88,7 @@ public class UiManager : MonoBehaviour
     }
 
     public void OpenOngoingQuestList() {
-        m_ongoingQuestCanvas.SetActive(m_activeQuestCanvas.activeInHierarchy);
+        m_ongoingQuestCanvas.SetActive(!m_activeQuestCanvas.activeInHierarchy);
 
         if (m_ongoingQuestCanvas.activeInHierarchy)
             m_activeQuestCanvas.SetActive(false);
