@@ -17,4 +17,25 @@ public class GameEvents : MonoBehaviour
             onPickUpButtonTrigger();
         }
     }
+
+    public event Action onLetGoButtonTrigger;
+    public void LetGo() {
+        if (onLetGoButtonTrigger != null) {
+            onLetGoButtonTrigger();
+        }
+    }
+
+    public event Action onCaressButtonTrigger;
+    public void Caress() {
+        if (onCaressButtonTrigger != null) {
+            onCaressButtonTrigger();
+        }
+    }
+
+    public event Action onPlayButtonTrigger;
+    public void Play() {
+        if (onPlayButtonTrigger != null) {
+            onPlayButtonTrigger();
+        }
+    }
 }

@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float turnSmoothTime = 0.1f;
     private float turnSmoothVelocity;
     [SerializeField] private Transform catPos;
+    [SerializeField] private Transform groundPos;
     [SerializeField] private CinemachineFreeLook cinemachine;
 
     [HideInInspector] public bool canInteract = false;
@@ -38,6 +39,9 @@ public class Player : MonoBehaviour
         cinemachineXSpeed = cinemachine.m_XAxis.m_MaxSpeed;
 
         GameEvents.current.onPickUpButtonTrigger += PickUpCat;
+        GameEvents.current.onLetGoButtonTrigger += LetGoCat;
+        GameEvents.current.onCaressButtonTrigger += Caress;
+        GameEvents.current.onPlayButtonTrigger += Play;
     }
 
     private void Start() {
@@ -62,6 +66,9 @@ public class Player : MonoBehaviour
 
     private void OnDestroy() {
         GameEvents.current.onPickUpButtonTrigger -= PickUpCat;
+        GameEvents.current.onLetGoButtonTrigger -= LetGoCat;
+        GameEvents.current.onCaressButtonTrigger -= Caress;
+        GameEvents.current.onPlayButtonTrigger -= Play;
     }
     #endregion
 
@@ -111,6 +118,7 @@ public class Player : MonoBehaviour
                     }
 
                     if (isCatCarried) UiManager.current.DisablePickUpButton();
+                    else UiManager.current.EnablePickUpButton();
                     
                     break;
 
@@ -134,9 +142,30 @@ public class Player : MonoBehaviour
         ResumeCinemachine();
 
         isCatCarried = true;
+        UiManager.current.CloseInteractionButton(interactableObjectNear.GetComponent<InteractionButton>().interactionButton);
         interactableObjectNear.transform.SetParent(catPos);
         interactableObjectNear.transform.DOLocalMove(Vector3.zero, 1f);
         interactableObjectNear.transform.DOLocalRotate(Vector3.zero, 1f);
+    }
+
+    public void LetGoCat() {
+        UiManager.current.HideCatInteractionCanvas();
+        isInInteractMenu = false;
+        ResumeCinemachine();
+
+        isCatCarried = false;
+        //move to ground
+        interactableObjectNear.transform.DOMove(groundPos.position, 1f);
+        //setparent null
+        interactableObjectNear.transform.SetParent(null);
+    }
+
+    public void Caress() {
+
+    }
+
+    public void Play() {
+
     }
 
     private void StopCinemachine() {
