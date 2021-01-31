@@ -11,6 +11,8 @@ public class Spawn : MonoBehaviour
     [SerializeField] private HouseManager m_houseManager;
 
     [Header("Spawn Positions")]
+    [SerializeField] private Transform m_catSpawnAreaHolder = null;
+    [SerializeField] private Transform m_questSpawnAreaHolder = null;
     [SerializeField] private List<Transform> m_catSpawnAreas = new List<Transform>();
     [SerializeField] private List<Transform> m_questSpawnAreas = new List<Transform>();
 
@@ -33,6 +35,12 @@ public class Spawn : MonoBehaviour
     private List<Transform> joueurPosList = new List<Transform>();
 
     private void Awake() {
+
+        foreach(Transform catSpawn in m_catSpawnAreaHolder)
+            m_catSpawnAreas.Add(catSpawn);
+
+        foreach (Transform questSpawn in m_questSpawnAreaHolder)
+            m_questSpawnAreas.Add(questSpawn);
 
         if (totalCats < totalQuests) {
             Debug.LogError("Total number of quests depasses the number of total cats ! Make sure you have at least the same number of both.");
@@ -136,7 +144,6 @@ public class Spawn : MonoBehaviour
 
                     GameObject go = Instantiate(m_questPrefab, position);
                     go.transform.localPosition = Vector3.zero;
-                    go.transform.localRotation = new Quaternion(0,0,0,0);
 
                     m_questSpawnAreas.RemoveAt(randomSpawnIndex);
 

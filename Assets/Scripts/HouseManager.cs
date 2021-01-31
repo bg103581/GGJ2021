@@ -14,7 +14,10 @@ public class HouseManager : MonoBehaviour
         Debug.Log("awake");
         string id;
 
-        foreach (House house in m_houses) {
+        foreach (Transform child in transform) {
+            House house = child.GetComponent<House>();
+            m_houses.Add(house);
+
             id = Random.Range(100, 200).ToString() + Alphabet[Random.Range(0, Alphabet.Length)];
 
             while (houseNumbers.Contains(id)) {
@@ -24,7 +27,6 @@ public class HouseManager : MonoBehaviour
             houseNumbers.Add(id);
             house.setHouseNumber(id);
         }
-
     }
     #endregion
 

@@ -35,18 +35,13 @@ public class UiManager : MonoBehaviour
         image.enabled = true;
     }
 
-    public void CloseInteractionButton(Image image) {
+    public void HideInteractionButton(Image image) {
         image.enabled = false;
     }
 
-    public void DisablePickUpButton() {
-        pickupButton.SetActive(false);
-        letGoButton.SetActive(true);
-    }
-
-    public void EnablePickUpButton() {
-        pickupButton.SetActive(true);
-        letGoButton.SetActive(false);
+    public void EnablePickUpButton(bool show) {
+        pickupButton.SetActive(show);
+        letGoButton.SetActive(!show);
     }
 
     public void ShowCatInteractionCanvas() {
