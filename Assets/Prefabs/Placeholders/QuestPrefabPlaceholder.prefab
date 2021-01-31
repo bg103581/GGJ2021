@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4571249213095055412}
   - component: {fileID: 7170435000845659686}
   - component: {fileID: 4293320011379317179}
+  - component: {fileID: 7475332625609749711}
   m_Layer: 0
   m_Name: QuestPrefabPlaceholder
   m_TagString: Untagged
@@ -94,3 +95,15 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &7475332625609749711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7323492932878485746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65ba988f2d240444093e2231be1a961e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

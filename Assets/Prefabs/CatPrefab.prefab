@@ -6075,6 +6075,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4640008566657778716}
   - component: {fileID: 5183122313387009008}
+  - component: {fileID: 5660999320596783480}
   m_Layer: 0
   m_Name: CatPrefab
   m_TagString: Untagged
@@ -6127,6 +6128,18 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 51d7beeb8103dfa44bd29a5535df925c, type: 2}
   - {fileID: 2100000, guid: 18d9472f64f14434b9a4b33d03b4ce60, type: 2}
   m_meshRenderer: {fileID: 4195853800952714397}
+--- !u!114 &5660999320596783480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5417636398399774374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0d98960abf1b604b8a51b9be61194b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5440538498173577018
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class Quest
+public class Quest : MonoBehaviour
 {
     private string[] descriptionStyles =
         { "J'ai perdu mon chat {0}, il est de couleur {1} avec une personnalité {2}."};
@@ -12,7 +12,9 @@ public class Quest
     private Cat catQuest;
     private string ownerHouse;
 
-    public Quest(Cat cat, string houseNumber) {
+    [SerializeField] public string Id;
+
+    public void SetQuest(Cat cat, string houseNumber) {
         description = descriptionStyles[getRandomDescriptionIndex()];
         catQuest = cat;
         ownerHouse = houseNumber;
@@ -23,7 +25,7 @@ public class Quest
     #region GETTERS AND SETTERS
     public string getDescription() { return description; }
     public Cat getCat() { return catQuest; }
-    public string getOwnerHouser() { return ownerHouse; }
+    public string getOwnerHouser() { return ownerHouse; } 
 
     #endregion
 }

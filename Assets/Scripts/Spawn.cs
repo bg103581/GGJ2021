@@ -105,16 +105,16 @@ public class Spawn : MonoBehaviour
                             break;
                     }
 
-                    catIdList.Add(catId);
-                    Cat cat = new Cat(fur, pattern, collar, personality) {
-                        Id = catId
-                    };
-                    catList.Add(cat);
-
                     GameObject go = Instantiate(m_catPrefab, position);
                     go.transform.localPosition = Vector3.zero;
                     go.transform.localRotation = position.rotation;
                     go.GetComponent<CatMaterialSetter>().SetMaterials(fur, pattern, collar);
+
+                    catIdList.Add(catId);
+                    Cat cat = go.GetComponent<Cat>();
+                    cat.SetCat(fur, pattern, collar, personality);
+                    cat.Id = catId;
+                    catList.Add(cat);
                 }
 
                 break;
@@ -129,10 +129,6 @@ public class Spawn : MonoBehaviour
                     questCatIdList.Add(catIdList[catIndex]);
                     questHouseList.Add(houses[houseIndex]);
 
-                    Cat questCat = catList[catIndex];
-                    Quest quest = new Quest(questCat, houses[houseIndex]);
-                    questList.Add(quest);
-
                     /*TO DO : Update quest description*/
 
                     int randomSpawnIndex = Random.Range(0, m_questSpawnAreas.Count);
@@ -143,6 +139,12 @@ public class Spawn : MonoBehaviour
                     go.transform.localRotation = new Quaternion(0,0,0,0);
 
                     m_questSpawnAreas.RemoveAt(randomSpawnIndex);
+
+                    Cat questCat = catList[catIndex];
+                    Quest quest = go.GetComponent<Quest>();
+                    quest.SetQuest(questCat, houses[houseIndex]);
+                    quest.Id = questCat.Id;
+                    questList.Add(quest);
                 }
 
                 break;
